@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 const cors = require('cors')
 const bodyParser = require('body-parser')
-require('dotenv').config()
+require('dotenv').config({ path: './.env' });
 const mongoose = require('mongoose')
 const User = require('./models/user')
 const Exercise = require('./models/exercise.js')
@@ -46,7 +46,11 @@ app.post('/api/users/:id/exercises', (req, res) => {
       const id = req.params.id
       const description = req.body.description
       const duration = req.body.duration
-      const date = new Date(req.body.date)
+      let date = new Date().toDateString()
+      if (req.body.date) {
+        date = new Date(req.body.date);
+      }
+      // const date = new Date(req.body.date)
       const newExercise = new Exercise({
         userId: id,
         description: description,
@@ -60,8 +64,8 @@ app.post('/api/users/:id/exercises', (req, res) => {
           res.json({
             _id: data.id,
             username: data.username,
-            date: date.toDateString(),
-            duration: duration,
+            date: req.body.date? new Date(req.body.date).toDateString() : new Date().toDateString(),
+            duration: Number(duration),
             description: description,
           })
         }
