@@ -2,13 +2,13 @@ const express = require('express')
 const app = express()
 const cors = require('cors')
 const bodyParser = require('body-parser')
-require('dotenv').config({ path: './.env' });
+require('dotenv').config();
 const mongoose = require('mongoose')
 const User = require('./models/user')
 const Exercise = require('./models/exercise.js')
 
 
-mongoose.connect(process.env.MONGO_STRING, {
+mongoose.connect(process.env.MONGO_URI, {
   useUnifiedTopology: true,
   useNewUrlParser: true
 })
